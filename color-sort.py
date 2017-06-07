@@ -1,10 +1,25 @@
 from PIL import Image
-im = Image.open('img.jpg')
+import random
+from random import randint
 
-pixels = list(im.getdata())
-print(pixels[0])
-im2 = Image.new(im.mode, im.size)
-pixels.sort()
-im2.putdata(pixels)
+#im = Image.open('img.jpg')
+#pixels = list(im.getdata())
 
-im2.save('out.bmp')
+length = 1000
+colors = []
+
+for i in range(1, length):
+    colors.append (
+        (
+    	    randint(0, 255),
+            randint(0, 255),
+            randint(0, 255)
+    	)
+    )
+
+colors.sort()
+im = Image.new("RGB", (length, 1))
+im.putdata(colors)
+size = (length, 20)
+im = im.resize(size)
+im.save('output.bmp')
