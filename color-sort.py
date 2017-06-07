@@ -1,5 +1,5 @@
 from PIL import Image
-im = Image.open('img.png')
+im = Image.open('img.jpg')
 
 pixels = list(im.getdata())
 print(pixels[0])
