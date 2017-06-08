@@ -26,12 +26,43 @@ colors.sort()
 colors.sort(key=lambda rgb: colorsys.rgb_to_hsv(*rgb))
 
 # hsl sort
-colours.sort(key=lambda rgb: colorsys.rgb_to_hls(*rgb))
+colors.sort(key=lambda rgb: colorsys.rgb_to_hls(*rgb))
 
-# luminosity sorting
+# luminosity sort
 def lum (r,g,b):
-	return math.sqrt( .241 * r + .691 * g + .068 * b )
+    return math.sqrt(.241 * r + .691 * g + .068 * b)
 colors.sort(key=lambda rgb: lum(*rgb))
+
+# step sort 1
+def step (rgb, repetitions=1):
+    r,g,b = rgb
+    lum = math.sqrt(.241 * r + .691 * g + .068 * b)
+
+    h, s, v = colorsys.rgb_to_hsv(r,g,b)
+    h2 = int(h * repetitions)
+    lum2 = int(lum * repetitions)
+    v2 = int(v * repetitions)
+
+    return (h2, lum, v2)
+colors.sort(key=lambda rgb: step(rgb,8))
+
+# step sort 2
+def step (rgb, repetitions=1):
+    r,g,b = rgb
+    lum = math.sqrt(.241 * r + .691 * g + .068 * b)
+
+    h, s, v = colorsys.rgb_to_hsv(r,g,b)
+
+    h2 = int(h * repetitions)
+    lum2 = int(lum * repetitions)
+    v2 = int(v * repetitions)
+
+    if h2 % 2 == 1:
+            v2 = repetitions - v2
+            lum = repetitions - lum
+
+    return (h2, lum, v2)
+colors.sort(key=lambda rgb: step(rgb,8))
 
 im = Image.new("RGB", (length, 1))
 im.putdata(colors)
